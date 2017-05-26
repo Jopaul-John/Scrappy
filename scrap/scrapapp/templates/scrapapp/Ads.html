@@ -1,0 +1,202 @@
+{% load staticfiles %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ad Detail</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Coda" rel="stylesheet">
+    <link href="{% static "css/materialize.css" %}" media="screen,projection" rel="stylesheet" type="text/css">
+    <link href="{% static "css/animate.css" %}" media="screen,projection" rel="stylesheet" type="text/css">
+    <link href="{% static "css/style.css" %}" media="screen,projection" rel="stylesheet" type="text/css">
+    <link href="{% static "css/dataurl.css" %}" media="screen,projection" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+</head>
+<body style="font-family:Coda">
+<div id="particles-js"></div>
+<div class="navbar-fixed">
+    <nav class="light-blue lighten-1" role="navigation">
+        <div class="nav-wrapper container">
+            <a class="brand-logo" href="/index/" target="_blank" id="logo-container"><b>Scrappy</b></a>
+            <ul class="right hide-on-med-and-down">
+               <li> <a style="text-transform:capitalize">Welcome {{user}}</a> </li>
+               <li> <a href="/dealerlogin/">Home</a> </li>
+               <li> <a href = "/logout/">Logout</a></li>
+            </ul>
+            <ul class="side-nav" id="nav-mobile">
+               <li> <a>Welcome {{user}}</a> </li>
+               <li> <a href="/dealerlogin/">Home</a> </li>
+               <li> <a href = "{{ id }}">Logout</a></li>
+            </ul><a class="button-collapse" data-activates="nav-mobile" href="#"><i class="material-icons">menu</i></a>
+        </div>
+    </nav> 
+</div>
+<div class="container center row" id="cartdivid">
+ <div class="col m8 offset-m2 black-text grey lighten-4">
+     <ul class="collapsible popout" data-collapsible="accordion">
+      <li>
+          <div class="collapsible-header active" style="text-transform: capitalize;">{{ ads.pname }}</div>
+          <div class="collapsible-body">
+              <span>ID : {{ ads.id }}<br/> Quantity : {{ ads.quantity }} KG <br/> Base Prize : {{ ads.price }} <br> Posted On : {{ads.date}} </span>
+              <br><br>
+          </div>
+      </li>
+     </ul>
+    <div class="cartdiv">
+        {% if cart  %}
+        <form action="" method="post">
+            {% csrf_token %}
+            <input class="btn blue" style="font-size:15px" type="submit" id="cartbutton" value="Delete from Favorites" name="deletecart" />
+        </form>
+        {% else %}
+        <form action="" method="post">
+             {% csrf_token %}
+            <input class="btn blue" type="submit" style="font-size:15px" id="cartbutton" value="Add to Favorites" name="cart" />
+        </form>
+        {% endif %}
+    </div>
+  </div>
+</div>
+    
+<div class="container grey lighten-4">
+    <div class="row center black-text">
+        <div class="col m12 center">
+    <br>
+    <h5>Current Bid Details</h5>
+    {% if currentbidders %}
+       <div class="col m8 offset-m2 center">
+        <table class="black-text centered striped">
+        <thead>
+          <tr>
+              <th data-field="id">Bidder</th>
+              <th data-field="name">Amount</th>
+              <th data-field="price">Time</th>
+          </tr>
+        </thead>
+        <tbody>
+    {% for bidders in currentbidders %}
+      <tr>
+            <td style="text-transform:capitalize">{{bidders.bidded_by}}</td>
+            <td>{{bidders.bid_amount}}</td>
+            <td>{{bidders.bid_time}}</td>
+      </tr>
+    {% endfor %}
+    {%else %}
+     <p style="font-size:0.6em">There are no current active bids for this Item</p>
+    {% endif %}
+            <p>{{message}}</p><br></tbody></table>
+        </div>
+    </div>
+    </div>
+    <div class="row">
+    <div class="col m6 offset-m3 center grey lighten-4 black-text"> 
+        <br>
+    <h5><u>Post a Bid</u></h5>
+    <div class="col m12 center">
+    <form action="" method="POST">
+        {% csrf_token %}
+    <table class="centered black-text" style="font-family:Arial">
+        <tr>
+        <td>
+            <input id="id_bid_time" name="bid_time" type="hidden" value="2017-03-15 10:42:50" required />
+            <input id="initial-id_bid_time" name="initial-bid_time" type="hidden" value="2017-03-15 10:42:50" />
+        </td>
+    <tr>
+        <th>
+            <label for="id_bid_amount">Bid Amount</label>
+        </th>
+        <td>
+            <input id="id_bid_amount" name="bid_amount" type="number" required />
+        </td>
+    </tr>
+
+    </tr>
+    </table>
+        <input class="btn orange" id="bid_button" type="submit" value="ok">
+    </form>
+        <div id="warningmsg" align="center"></div>
+
+        {%if form.errors%}
+        {{form.errors}}
+        {%endif%}
+
+    </div>
+    </div>
+    </div></div>
+</body>
+
+<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script type='text/javascript' src="{% static "js/init.js" %}"></script>
+    <script type='text/javascript' src="{% static "js/materialize.min.js" %}"></script>
+    <script type='text/javascript' src="{% static "js/typed.js" %}"></script>
+    <script type='text/javascript' src="{% static "js/wow.js" %}"></script>
+    <script type='text/javascript' src="{% static "js/particles.js" %}"></script>
+    <script type='text/javascript' src="{% static "js/app.js" %}"></script>
+
+
+<script type="text/javascript" language="javascript">
+
+$('#bid_button').click(function(e){
+ var bid_amount = Number(document.getElementById('id_bid_amount').value);
+ var ads_price = Number('{{ads.price}}');
+ console.log("bid amount = "+bid_amount);
+ console.log("ads.price = "+ads_price);
+  if(bid_amount<ads_price)
+   {
+    e.preventDefault();
+    console.log("inside if");
+    document.getElementById('bid_button').disabled = true;
+    document.getElementById('warningmsg').innerHTML = "Bid amount should be greater than product base price";
+   }
+   else
+   {
+    console.log("inside else");
+   }
+
+});
+
+$('#id_bid_amount').click(function(e) {
+ document.getElementById('warningmsg').innerHTML = "";
+ document.getElementById("bid_button").disabled = false;
+});
+
+
+$( "#cartbutton" ).click(function(e) {
+    e.preventDefault();
+    var status ="null";
+    console.log('{{cart}}');
+
+
+    $.ajax({
+    url: '/addtocart/',
+    type : 'post',
+    dataType: 'json',
+    data: {id: '{{ads.id}}',csrfmiddlewaretoken: '{{ csrf_token }}'},
+    success: function(data) {
+         if(data.message != "None")
+           {
+              $("#cartbutton").prop('value', 'Add to favourites');
+              console.log("yes data");
+            }
+            else
+            {
+             console.log("no data");
+             $("#cartbutton").prop('value', 'Delete from favourites');
+
+            }
+         },
+    failure: function(data) {
+        alert('error');
+    }
+    });//ajax
+    //location.reload();
+
+    console.log("cart =  "+'{{cart}}');
+
+  });
+
+
+
+</script>
+
+
+</html>

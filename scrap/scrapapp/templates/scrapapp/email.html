@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<p>Hello {{ user }},</p>
+<h2>Welcome to Scrappy !!</h2>
+<p>Your account has been registered successfully.</p>
+{{message}}
+    <br>
+<a href="localhost:8000/home/">Click here to continue in Scrappy :)</a>
+
+<button id="myButton" class="float-left submit-button" >Home</button>
+
+<script type="text/javascript">
+    document.getElementById("myButton").onclick = function () {
+        location.href = "localhost:8000/index/";
+    };
+</script>
+
+
+</body>
+</html>

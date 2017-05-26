@@ -1,0 +1,83 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sign In</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Coda" rel="stylesheet">
+    <link href="{% static "css/materialize.css" %}" media="screen,projection" rel="stylesheet" type="text/css">
+    <link href="{% static "css/animate.css" %}" media="screen,projection" rel="stylesheet" type="text/css">
+    <link href="{% static "css/style.css" %}" media="screen,projection" rel="stylesheet" type="text/css">
+    <link href="{% static "css/dataurl.css" %}" media="screen,projection" rel="stylesheet" type="text/css">
+</head>
+<body style="font-family: Coda">
+<div id="particles-js"></div>
+<div class="navbar-fixed">
+    <nav class="light-blue lighten-1 mynav" role="navigation">
+        <div class="nav-wrapper container">
+            <a class="brand-logo" href="/index/" target="_blank" id="logo-container"><b>Scrappy</b></a>
+            <ul class="right hide-on-med-and-down">
+                <li>
+                    <a href="/index/">Home</a>
+                </li>
+            </ul>
+            <ul class="side-nav" id="nav-mobile">
+                <li>
+                    <a href="/index/">Home</a>
+                </li>
+            </ul><a class="button-collapse" data-activates="nav-mobile" href="#"><i class="material-icons">menu</i></a>
+        </div>
+    </nav> 
+</div>
+<div class="container center row">
+    <h3>Sign In</h3>
+    <div class="col m3">
+      <img src="{% static "img/scrap.png" %}" width="230">
+    </div>
+    <div class="col m6 s12">
+    <form action="" method="POST">
+    {% csrf_token %}
+    <div class="row">
+    <div class="input-field col s12 m12">
+    <input type="text" name="username" class="validate" required>
+    <label for="username">User Name</label>
+    </div>
+    </div>
+    <br>
+    <div class="row">
+    <div class="input-field col s12 m12">
+    <input type="password" name="password" class="validate" required>
+    <label for="password">Password</label>
+    </div>
+    </div>
+    <br>
+    <button class="btn green submit" type="submit">Login</button>
+    </form>
+            <a href="{% url 'social:begin' 'twitter' %}">Login with Twitter</a>
+
+    </div>
+    <div class="col m3">
+      <img src="{% static "img/scrapp.png" %}" width="195">
+    </div>
+{% if error %}
+{{ error }}
+{% endif %}
+<br/>
+<div class="row col m12 s12">
+<p>New to the Site?? Register below</p>
+<a class="btn blue" href="{{ dealerreg }}">Dealer</a>
+<a class="btn blue" href="{{ sellerreg }}">Seller</a>
+</div>
+</body>
+<script>
+     //alert('{{ alert }}');
+</script>
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script type='text/javascript' src="{% static "js/init.js" %}"></script>
+    <script type='text/javascript' src="{% static "js/materialize.min.js" %}"></script>
+    <script type='text/javascript' src="{% static "js/typed.js" %}"></script>
+    <script type='text/javascript' src="{% static "js/wow.js" %}"></script>
+    <script type='text/javascript' src="{% static "js/particles.js" %}"></script>
+    <script type='text/javascript' src="{% static "js/app.js" %}"></script>
+</html>

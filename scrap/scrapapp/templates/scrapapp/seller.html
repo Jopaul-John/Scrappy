@@ -1,0 +1,261 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script>
+        window.onload = function() {
+        date();
+        };
+        function date()
+        {
+          var currentdate = new Date();
+          var datetime =  currentdate.getDate() + "/"
+                + (currentdate.getMonth()+1)  + "/"
+                + currentdate.getFullYear() + " @ "
+                + currentdate.getHours() + ":"
+                + currentdate.getMinutes();
+    document.getElementById('id_date').value = datetime;
+        }
+    </script>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Seller</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="{% static "bootstrap/css/bootstrap.css" %}" media="screen,projection" rel="stylesheet" type="text/css">
+    <!-- Custom Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Coda" rel="stylesheet">
+    <link href="{% static "css/animate.css" %}" media="screen,projection" rel="stylesheet" type="text/css">
+    <!-- Plugin CSS -->
+    <link href="{% static "bootstrap/css/animate.min.css" %}" media="screen,projection" rel="stylesheet" type="text/css">
+    <link href="{% static "bootstrap/css/creative.css" %}" media="screen,projection" rel="stylesheet" type="text/css">
+    <style>
+        #particles-js {
+            position: fixed;
+            height: 100%;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+    </style>
+</head>
+
+<body id="page-top" style="background-color:black;font-family:'Coda'">
+    <div id="particles-js"></div>
+    <nav id="mainNav" class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand page-scroll" href="#page-top">Scrappy</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a class="page-scroll" href="/index/">Home</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="">Welcome {{user}}</a>
+                    </li>
+                    <li>
+                        <a href="/sellerlogin/bids/">My Ads</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="{{id}}">Logout</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container-fluid -->
+    </nav>
+
+    <header>
+        <div class="header-content" style="font-family:'Cabin Sketch'">
+            <div class="header-content-inner">
+                <br><br>
+                
+            <h2><b>Post an Ad</b></h2><br>
+            <div class="col-md-6 col-md-offset-3" style="font-size:150%;font-family:Coda">
+            <form action="" method="post">
+            {%csrf_token%}
+              <div class="form-group">
+                <label for="id_pname">Product</label>
+                <select class="form-control" style="color:black" id="id_pname" name="pname" required>
+                    <option value="" selected="selected">---------</option> {% for prod in product %}
+                    <option style="text-transform:capitalize" value="{{prod.id}}">{{prod.pname}}</option> {%endfor%} </select>
+              </div>
+                <div class="form-group">
+                    <label for="id_date">Date</label>
+                    <input class="form-control" style="color:black" disabled id="id_date" name="date" type="text" value="2017-03-06 10:45:51" />
+                    <input class="form-control" id="initial-id_date" name="initial-date" type="hidden" value="{{product.date}}" /> </div>
+                <div class="form-group">
+                    <label for="id_quantity">Quantity&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                    <input class="form-control" style="color:black" id="id_quantity"  name="quantity" type="number" required /> </div>
+                <div class="form-group">
+                    <label for="id_price">Price</label>
+                    <input class="form-control" style="color:black" id="id_price" name="price" type="number" required /> </div>
+<!--
+                <div class="form_group">
+                    <label for="id_club_friend">Club friend:</label>
+                    <input id="id_club_friend" style="color:black" name="club_friend" type="checkbox" />
+                    <div id="warningdiv"></div>
+                </div>
+-->
+
+
+                <!--    {% if ads %}
+                            {{ ads.as_p }}
+                            {% endif %}-->
+              <input class="btn btn-primary"  type="submit" id="adsubmit" onclick="return senddata(this)" value="Post"  style="font-size:110%" />
+            </form>
+                <div id="submit_id">
+                </div>
+        <br>
+        {{ status  }}
+        <br></div>
+        </div>
+        </div>
+    </header>
+
+
+    <!-- jQuery -->
+    <script src="{% static "bootstrap/js/jquery.js" %}"></script>
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="{% static "bootstrap/js/bootstrap.min.js" %}"></script>
+    <script src="{% static "bootstrap/js/creative.js" %}"></script>
+    <script type='text/javascript' src="{% static "js/particles.js" %}"></script>
+    <script type='text/javascript' src="{% static "js/app.js" %}"></script>
+
+    <script>
+    $("#id_pname").change(function(e){
+    e.preventDefault();
+    $("#id_price").val("");
+    $("#id_quantity").val("");
+    });
+
+$("#id_quantity").change(function(){
+    console.log("changed");
+    var product = $("#id_pname").val();
+    //console.log(product);
+
+    if(product!="")
+    $.ajax({
+    url: '/test/',
+    type : 'post',
+    dataType: 'json',
+    data: {product: product,csrfmiddlewaretoken: '{{ csrf_token }}'},
+    success: function(data) {
+        //console.log(data);
+        var obj = jQuery.parseJSON(data);
+        console.log();
+        var base = Number(obj[0].fields.baseprice);
+        var quantity = Number($("#id_quantity").val());
+        //console.log(quantity*base);
+        $("#id_price").val(quantity*base);
+        document.getElementById("id_price").disabled = true;
+         },
+    failure: function(data) {
+        alert('Got an error dude');
+    }
+
+});
+
+});
+
+/*
+
+$('#id_club_friend__').click(function(e) {
+    document.getElementById("adsubmit").disabled = true;
+    console.log("preesed");
+    var userlist = '{{userlist}}';
+    console.log("users = "+userlist);
+    var club = $('#id_club_friend').is(':checked');
+    var user = '{{user}}';
+    var product = document.getElementById('id_pname').value;
+    var quantity = document.getElementById('id_quantity').value;
+    var price = document.getElementById('id_price').value;
+
+    $.ajax({
+    url: '/test/',
+    type : 'post',
+    dataType: 'json',
+    data: {club: club,user:user,product:product,quantity:quantity,csrfmiddlewaretoken: '{{ csrf_token }}'},
+    success: function(data) {
+        var obj = jQuery.parseJSON(data);
+        console.log(obj[0].fields.pname);
+         },
+    failure: function(data) {
+        alert('Got an error dude');
+    }
+
+});
+
+
+});
+
+*/
+
+function senddata(id)
+{
+    var product = document.getElementById('id_pname').value;
+    var quantity = document.getElementById('id_quantity').value;
+    var price = document.getElementById('id_price').value;
+    console.log("input value = "+product+quantity+price);
+    document.getElementById("adsubmit").disabled = true;
+    if(product=="")
+    {
+        document.getElementById('warningdiv').innerHTML="please select a Product";
+        document.getElementById("adsubmit").disabled = false;
+        return false;
+     }
+    if(quantity=="")
+    {
+        document.getElementById('warningdiv').innerHTML="please select a Quantity";
+        document.getElementById("adsubmit").disabled = false;
+        $("#id_quantity").val("");
+
+        return false;
+     }
+      if(price=="")
+        {
+        document.getElementById('warningdiv').innerHTML="please select a price";
+        document.getElementById("adsubmit").disabled = false;
+        $("#id_price").val("");
+        return false;
+        }
+    $.ajax({
+    url: '/sellerlogin/',
+    type : 'post',
+    dataType: 'json',
+    data: {product: product,quantity:quantity,price:price,csrfmiddlewaretoken: '{{ csrf_token }}'},
+    success: function(data) {
+        document.getElementById('submit_id').innerHTML=data.message;
+        document.getElementById("adsubmit").disabled = false;
+    },
+    failure: function(data) {
+        alert('Got an error dude');
+    }
+});
+return false;
+
+}
+
+    </script>
+
+</body>
+
+</html>

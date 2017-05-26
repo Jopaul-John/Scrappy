@@ -1,0 +1,181 @@
+{% load staticfiles %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dealer</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Coda" rel="stylesheet">
+    <link href="{% static "css/materialize.css" %}" media="screen,projection" rel="stylesheet" type="text/css">
+    <link href="{% static "css/animate.css" %}" media="screen,projection" rel="stylesheet" type="text/css">
+    <link href="{% static "css/style.css" %}" media="screen,projection" rel="stylesheet" type="text/css">
+    <link href="{% static "css/dataurl.css" %}" media="screen,projection" rel="stylesheet" type="text/css">
+</head>
+<body style="font-family:Coda">
+<div id="particles-js"></div>
+<div class="navbar-fixed">
+    <nav class="light-blue lighten-1" role="navigation">
+        <div class="nav-wrapper container">
+            <a class="brand-logo" href="/index/" target="_blank" id="logo-container"><b>Scrappy</b></a>
+            <ul class="right hide-on-med-and-down">
+               <li> <a style="text-transform:capitalize">Welcome&nbsp;&nbsp;{{user}}</a> </li>
+               <li> <a href="#modal1">My Scrappy</a></li>
+                <li> <a href="/recentbids/">Profile</a></li>
+<!--                <li> <a href="#modal2">Cart</a></li>-->
+                <li> <a href="/wallet/" id="user_wallet">My Wallet</a></li>
+               <li> <a href = "{{ id }}">Logout</a></li>
+            </ul>
+            <ul class="side-nav" id="nav-mobile">
+               <li> <a>Welcome {{user}}</a> </li>
+               <li> <a href="#modal1">My Scrappy</a></li>
+                <li> <a href="/recentbids/">Profile</a></li>
+<!--                <li> <a href="/cart/">Cart</a></li>-->
+                <li> <a href="/wallet/">My Wallet</a></li>
+               <li> <a href = "{{ id }}">Logout</a></li>
+            </ul><a class="button-collapse" data-activates="nav-mobile" href="#"><i class="material-icons">menu</i></a>
+        </div>
+    </nav> 
+</div>
+
+<div class="container">
+<div class="row center">
+    <form action="" method="post">
+        {%csrf_token%}
+        <div class="col m6 offset-m3 s12"><input type="text" width="20" name="search" placeholder=" Enter product or city or both">
+        <br>
+        <input class="btn red" type="submit" value="Search!">
+        </div>
+    </form>
+</div>
+</div>
+
+
+
+<div class="container row">
+   <h4 class="center" >Latest Ads</h4>
+    <div class="divider"></div>
+    <div class="col m12 black-text">
+        <div class="row">
+            {% for var in ads %}
+                 {% if var.is_actibe %}    
+                <div class="card col m4 s12">
+                    <div class="card-image" style="margin-top:10px">
+                      {% if var.pname|stringformat:"s" == 'Keyboard' %}
+                        <img src="{% static "img/keyboard.jpg" %}" class="responsive-img">
+                      {% elif var.pname|stringformat:"s" == 'Motherboard' %} 
+                        <img src="{% static "img/motherboard.jpg" %}" class="responsive-img">
+                      {% elif var.pname|stringformat:"s" == 'Phone' %} 
+                        <img src="{% static "img/mobile.jpg" %}" class="responsive-img">
+                      {% elif var.pname|stringformat:"s" == 'Newspaper' %} 
+                        <img src="{% static "img/news.jpg" %}" class="responsive-img">
+                      {% elif var.pname|stringformat:"s" == 'Plastics' %} 
+                        <img src="{% static "img/plastic.jpg" %}" class="responsive-img">
+                      {% elif var.pname|stringformat:"s" == 'Pendrive' %} 
+                        <img src="{% static "img/pendrive.jpg" %}" class="responsive-img">
+                      {% elif var.pname|stringformat:"s" == 'Mouse' %} 
+                        <img src="{% static "img/mouse.jpg" %}" class="responsive-img">
+                      {% else %}
+                        <img src="{% static "img/glass.jpg" %}" class="responsive-img">
+                      {% endif %}
+                    </div>
+                    <div class="card-content center {% if var.is_new %} white {% else %} grey lighten-3 {%endif%}">
+                      <span class="card-title caps">{{ var.pname }}</span><br>
+                      <span>ID : {{ var.id }}<br/> Quantity : {{ var.quantity }} KG <br/> Current Bid : {{ var.price }} <br/>Expires on : {{var.expires.day}} - {{var.expires.month}} - {{var.expires.year}} </span><br>
+                      <a href = "/ads/{{ var.id }}/" class="btn red">Explore</a>
+                    </div>
+                </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+        <div class="row white-text center">
+                <div class="pagination">
+                    <span class="step-links">
+                    {% if ads.has_previous %}
+                        <a href="?page={{ ads.previous_page_number }}"> << </a>
+                    {% endif %}
+
+                    <span class="current">
+                        Page {{ ads.number }} of {{ ads.paginator.num_pages }}.
+                    </span>
+
+                    {% if ads.has_next %}
+                        <a href="?page={{ ads.next_page_number }}">>></a>
+                    {% endif %}
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="modal1" class="modal">
+    <div class="modal-content center black-text">
+       <h4>My Favorites</h4>
+        {% if items %}
+        {%for item in items%}
+         <ul class="collapsible popout" data-collapsible="accordion">
+           <li>
+           <div class="collapsible-header" style="text-transform: capitalize;">{{ item.ads.pname.id }} | {{ item.ads.pname }} | {{ item.ads.username }}  <a class="btn blue" href="/ads/{{item.ads.id}}/">Go !</a></div>
+           </li>
+         </ul>
+       {%endfor%}
+       {%else %}
+         <p>Sorry No Favorites Yet</p>
+       {% endif %}
+       <br> 
+       <h4>My Bids</h4>
+       {% if bids %}
+        <table class="black-text centered">
+        <thead>
+          <tr>
+              <th data-field="id">ID</th>
+              <th data-field="name">Product</th>
+              <th data-field="price">Bid Amount</th>
+              <th data-field="bleh">View Ad</th>
+              <th data-field="bleh">Accepted?</th>
+          </tr>
+        </thead>
+        <tbody>
+    {% for bid in bids %}
+      <tr>
+            <td>{{bid.id}}</td>
+            <td style="text-transform:capitalize">{{bid.product}}</td>
+            <td>{{bid.bid_amount}}</td>
+            <td><a class="btn mybttn black-text white" href="/ads/{{ bid.ad_id.id }}/">Go</a></td>
+            {% if bid.ad_id.is_bidded %}
+            {% if not bid.ad_id.is_actibe %}
+                <td><a class="btn mybttn black-text white" style="font-size:0.8em" href="/deals/{{bid.id}}/">Get Address</a></td>
+            {% endif %}
+            {% else %}
+            <td>Not Accepted</td>
+            {% endif %}
+      </tr>
+    </form>
+    {% endfor %}
+    {%else %}
+     <p>Sorry No Bids Yet</p>
+    {% endif %}
+    
+    </div>
+
+
+</div>
+
+</body>
+<script>
+     $(document).ready(function () {
+ $('.modal1').modal();
+  });
+});
+</script>
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script type='text/javascript' src="{% static "js/init.js" %}"></script>
+    <script type='text/javascript' src="{% static "js/materialize.min.js" %}"></script>
+    <script type='text/javascript' src="{% static "js/typed.js" %}"></script>
+    <script type='text/javascript' src="{% static "js/wow.js" %}"></script>
+    <script type='text/javascript' src="{% static "js/particles.js" %}"></script>
+    <script type='text/javascript' src="{% static "js/app.js" %}"></script>
+<script>
+
+    $('#user_wallet').click(function(e) {
+     console.log("Bu");
+});
+</script>
+</html>

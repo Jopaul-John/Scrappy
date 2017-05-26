@@ -1,0 +1,11 @@
+autopep8==1.2.4
+Django==1.10
+django-filter==1.0.2
+django-simple-email-confirmation==0.21
+djangorestframework==3.6.2
+jsonpickle==0.9.4
+Markdown==2.6.8
+olefile==0.44
+pep8==1.7.0
+pillow==4.0.0
+virtualenv==15.0.1

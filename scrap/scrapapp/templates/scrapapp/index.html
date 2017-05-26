@@ -1,0 +1,208 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1.0" name="viewport">
+    <link href="img/Meta.ico" rel="icon" type="image/gif">
+    <title>Scrappy</title>
+    <!-- CSS  -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Cabin+Sketch|Monoton" rel="stylesheet">
+    <link href="{% static "css/materialize.css" %}" media="screen,projection" rel="stylesheet" type="text/css">
+    <link href="{% static "css/style.css" %}" media="screen,projection" rel="stylesheet" type="text/css">
+</head>
+
+<body class="navbar-fixed mybody">
+    <nav class="light-blue lighten-1 script mynav" role="navigation">
+        <div class="nav-wrapper container">
+            <a class="brand-logo" href="http://www.adishankara.ac.in/" target="_blank" id="logo-container"><b>Scrappy</b></a>
+            <ul class="right hide-on-med-and-down">
+                <li>
+                    <a href="#home">Home</a>
+                </li>
+                <li>
+                    <a href="#about">About</a>
+                </li>
+                <li>
+                    <a href="#contact">Contact</a>
+                </li>
+                <li>
+                    <a href="/home/">Sign In</a>
+                </li>
+            </ul>
+            <ul class="side-nav" id="nav-mobile">
+                <li>
+                    <a href="#home">Home</a>
+                </li>
+                <li>
+                    <a href="#about">About</a>
+                </li>
+                <li>
+                    <a href="#contact">Contact</a>
+                </li>
+                <li>
+                    <a href="/home/">Sign In</a>
+                </li>
+            </ul><a class="button-collapse" data-activates="nav-mobile" href="#"><i class="material-icons">menu</i></a>
+        </div>
+    </nav> 
+    <div id="particles-js"></div>
+        <header>
+            <div class="row container center overlay scrollspy typewriter" id="home">
+                <div class="col s12 m12 c_banner_right">
+                  
+                    <div id="main_title" style="font-family:Monoton"></div>
+                    <div class="row">
+                        <div id="sub_title"></div> 
+                    </div> 
+                    <div>
+                    <p>A portal to get rid of your Scraps and E - Waste.</p>
+                        <a href="#about" class="mybtn-circle"><i class="animated"><img src={% static "img/down.png" %} width="20"></i>
+                        </a>
+                    </div><br/>
+                </div>
+            </div>
+        </header>
+        <div class="section overlay container scrollspy"   id="about">
+            <div class="row">
+                <div class="col m7 s12 cabin wow slideInLeft"  data-wow-duration="1s" data-wow-delay="1s">
+                  
+                    <h3 class="">About</h3>
+                    <p>Scrappy is a portal made by the students of Adi Shankara Institute of Engineering and Technology, Kalady which aims to get rid of all the scraps sitting at home. The Portal can be accessed from Smartphones as well as Computers.</p>
+                    <p>With Scrappy, the users can post ads and let the dealers bid and get the best price for their scraps. The dealers have the adavantage of avoiding the trouble to every house and ask whether they have scraps. The dealer can bid and if they bid the highest, they get the location and can go and get the scraps.</p>
+                </div>
+                <div class="col m4 s12 offset-s1 wow slideInRight"  data-wow-duration="2s" data-wow-delay="1s">
+                    <br><br>
+                    <img src="{% static "img/scrap.png" %}" width="400">
+                </div>
+            </div>
+        </div>
+        <div class="container center" id="contact">
+            <h3>Contact Us</h3>
+            <br>
+            <div class="row">
+            <form class="col s12 m10 offset-m1"  method="POST">
+                {% csrf_token %}
+              <div class="row">
+                <div class="input-field col s12 m6">
+                  <input id="name" type="text" name="name" class="validate" required>
+                  <label for="name">Name</label>
+                </div>
+                <div class="input-field col s12 m6">
+                  <input id="place" type="text" name="place" class="validate" required>
+                  <label for="place">Place</label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="input-field col s12 m6">
+                  <input id="mobile" type="tel" name="mobile" class="validate" required>
+                  <label for="mobile">Mobile</label>
+                </div>
+
+                  <div class="input-field col s12 m6">
+                  <input id="email" name="email" type="email" class="validate" required>
+                  <label for="email">Email</label>
+                  </div>
+
+                <div class="input-field col s12 m12" >
+                  <input id="message" name="message" type="text" class="validate" align="center" required>
+                  <label for="message">Message</label>
+                </div>
+              </div>
+            <button class="btn" id="submit" type="submit">Submit</button>
+            <div align="center" id="formsubmitid"></div>
+                <br>{{message}}
+            </form>
+          </div>
+            <p class="ryt">For any other queries, contact us at <a href="mailto:bramha.asiet@gmail.com">scrappy.in@gmail.com</a></p>
+        </div>
+                
+            </div>
+            </div>
+        </div>
+    <footer class="page-footer black wow fadeIn"  data-wow-duration="1s">
+  <div>
+
+  </div>
+        <div class="footer-copyright">
+            <div class="container center">
+                All Rights Reserved. Made by <a class="yellow-text text-lighten-3" href="#">The Lazy Group.</a>
+            </div>
+        </div>
+    </footer>
+    <!--  Scripts-->
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script type='text/javascript' src="{% static "js/init.js" %}"></script>
+    <script type='text/javascript' src="{% static "js/materialize.min.js" %}"></script>
+    <script type='text/javascript' src="{% static "js/typed.js" %}"></script>
+    <script type='text/javascript' src="{% static "js/wow.js" %}"></script>
+    <script type='text/javascript' src="{% static "js/particles.js" %}"></script>
+    <script type='text/javascript' src="{% static "js/app.js" %}"></script>
+
+
+<script>
+    $( "#submit" ).click(function(e) {
+      e.preventDefault();
+      var name= $('#name').val();
+      var place = $('#place').val();
+      var mobile = $('#mobile').val();
+      var email = $('#email').val();
+      var msg = $('#message').val();
+      console.log(status+place+mobile+email+msg);
+      if(name =="")
+        {
+            alert('please enter name');
+            return false;
+         }
+      if(place =="")
+        {
+            alert('please enter place');
+            return false;
+         }
+      if(mobile =="")
+        {
+            alert('please enter mobile');
+            return false;
+         }
+      if(email =="")
+        {
+            alert('please enter email');
+            return false;
+         }
+      if(msg =="")
+        {
+            alert('please enter msg');
+            return false;
+         }
+
+      $('#name').click(function(e) {
+           document.getElementById("formsubmitid").innerHTML = "";
+
+         });
+
+$.ajax({
+    url: '/index/',
+    type : 'post',
+    dataType: 'json',
+    data: {name: name, place: place,mobile:mobile,email:email,msg:msg,csrfmiddlewaretoken: '{{ csrf_token }}'},
+    success: function(data) {
+            document.getElementById("formsubmitid").innerHTML = data.message;
+           },
+    failure: function(data) {
+        alert('Got an error dude');
+    }
+});
+document.getElementById("name").value = "";
+document.getElementById("place").value = "";
+document.getElementById("mobile").value = "";
+document.getElementById("email").value = "";
+document.getElementById("message").value = "";
+
+
+});
+</script>
+</body>
+
+</html>

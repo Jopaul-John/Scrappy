@@ -1,0 +1,121 @@
+{% load staticfiles %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Profile</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Coda" rel="stylesheet">
+    <link href="{% static "css/materialize.css" %}" media="screen,projection" rel="stylesheet" type="text/css">
+    <link href="{% static "css/animate.css" %}" media="screen,projection" rel="stylesheet" type="text/css">
+    <link href="{% static "css/style.css" %}" media="screen,projection" rel="stylesheet" type="text/css">
+    <link href="{% static "css/dataurl.css" %}" media="screen,projection" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+</head>
+<body style="font-family:Coda">
+<div id="particles-js"></div>
+<div class="navbar-fixed">
+    <nav class="light-blue lighten-1" role="navigation">
+        <div class="nav-wrapper container">
+            <a class="brand-logo" href="/index/" target="_blank" id="logo-container"><b>Scrappy</b></a>
+            <ul class="right hide-on-med-and-down">
+               <li> <a style="text-transform:capitalize">Welcome {{user}}</a> </li>
+               <li> <a href="/dealerlogin/">Home</a> </li>
+               <li> <a href = "/logout/">Logout</a></li>
+            </ul>
+            <ul class="side-nav" id="nav-mobile">
+               <li> <a>Welcome {{user}}</a> </li>
+               <li> <a href="/dealerlogin/">Home</a> </li>
+               <li> <a href = "{{ id }}">Logout</a></li>
+            </ul><a class="button-collapse" data-activates="nav-mobile" href="#"><i class="material-icons">menu</i></a>
+        </div>
+    </nav> 
+</div>
+<div class="row">
+    <div class="col m5">
+        <div class="row">
+            <div class="col m12 s12 center">
+            <h4>My Profile</h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col m12 s12 center">
+                <div class="divider"></div>
+                <div id="myprofile">
+                    <div class="grey lighten-4 black-text">
+                        <div class="row">
+                            <div class="col m4 offset-m4 s12" style="padding-top:10px"> <img src="{{ user.reg_image.url }}" alt="" class="circle responsive-img"> </div>
+                        </div>
+                        <div class="row">
+                            <div class="col m12 s12"> <span class="title" style="font-size:1.2em;text-transform:capitalize;">{{user}}</span>
+                                <p>{{user.ph_no}} | {{user.city}} </p>
+                                <p>{{user.address}}
+                                    <br>{{user.city}}
+                                    <br>{{user.state}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col m7">
+     <div class="white-text">
+        <h5 class="center">Your Bids</h5>
+        <div class="divider col m6 offset-m3"></div>
+        {% if bids %}
+        <div class="col m8 offset-m2">
+            <table class="white-text centered">
+                <thead>
+                    <tr>
+                        <th data-field="id">Product</th>
+                        <th data-field="name">Bid Amount</th>
+                        <th data-field="price">Base Price</th>
+                    </tr>
+                </thead>
+                <tbody> 
+                    {% for bid in bids %}
+                    <tr>
+                        <td style="text-transform:capitalize">{{bid.product}}</td>
+                        <td>{{bid.bid_amount}}</td>
+                        <td>{{bid.product.baseprice}}</td>
+                    </tr> 
+                    {% endfor %} 
+                    <tr>
+                        <td colspan="3" class="grey lighten-4 black-text">Stats</td>
+                    </tr> 
+                    <tr>
+                        <td>Total Bid Amount</td>
+                        <td colspan="2">{{total}}</td>
+                    </tr> 
+                    <tr>
+                        <td>Total Base Price Cost</td>
+                        <td colspan="2">{{baseprice}}</td>
+                    </tr> 
+                    <tr>
+                        <td>Extra Amount Spent</td>
+                        <td colspan="2">{{diff}}</td>
+                    </tr> 
+                    {%else %}
+                    <p class="center" style="padding-top:20px">There are no current active bids for this Item</p> 
+                    {% endif %}
+                    <p>{{message}}</p>
+                    <br> </tbody>
+            </table>
+        </div>
+    </div>
+    </div>
+
+
+<div id="profitfromcart">
+
+</div>
+</body>
+
+<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script type='text/javascript' src="{% static "js/init.js" %}"></script>
+    <script type='text/javascript' src="{% static "js/materialize.min.js" %}"></script>
+    <script type='text/javascript' src="{% static "js/typed.js" %}"></script>
+    <script type='text/javascript' src="{% static "js/wow.js" %}"></script>
+    <script type='text/javascript' src="{% static "js/particles.js" %}"></script>
+    <script type='text/javascript' src="{% static "js/app.js" %}"></script>
+</html>

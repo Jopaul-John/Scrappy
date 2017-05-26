@@ -1,0 +1,101 @@
+{% load staticfiles %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Ads</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Coda" rel="stylesheet">
+    <link href="{% static "css/materialize.css" %}" media="screen,projection" rel="stylesheet" type="text/css">
+    <link href="{% static "css/animate.css" %}" media="screen,projection" rel="stylesheet" type="text/css">
+    <link href="{% static "css/style.css" %}" media="screen,projection" rel="stylesheet" type="text/css">
+    <link href="{% static "css/dataurl.css" %}" media="screen,projection" rel="stylesheet" type="text/css">
+</head>
+<body style="font-family:Coda">
+<div id="particles-js"></div>
+<div class="navbar-fixed">
+    <nav class="light-blue lighten-1" role="navigation">
+        <div class="nav-wrapper container">
+            <a class="brand-logo" href="http://www.adishankara.ac.in/" target="_blank" id="logo-container"><b>Scrappy</b></a>
+            <ul class="right hide-on-med-and-down">
+               <li> <a style="text-transform:capitalize">Welcome {{user}}</a> </li>
+               <li> <a href="/sellerlogin/">Home</a> </li>
+               <li> <a href = "/logout/">Logout</a></li>
+            </ul>
+            <ul class="side-nav" id="nav-mobile">
+               <li> <a style="text-transform:capitalize"></li>
+               <li> <a href="/sellerlogin/">Home</a> </li>
+               <li> <a href = "{{ id }}">Logout</a></li>
+            </ul><a class="button-collapse" data-activates="nav-mobile" href="#"><i class="material-icons">menu</i></a>
+        </div>
+    </nav> 
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col m6 offset-m3 center s12">
+            <h4>My Ads</h4>
+            <div class="divider"></div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col m12 center s12 black-text">
+          <div class="row">
+            {% for ad in ads %}
+                 {% if ad.is_actibe %}    
+                     <div class="card col m4 s12">
+                    <div class="card-image" style="margin-top:10px">
+                      {% if ad.pname|stringformat:"s" == 'Keyboard' %}
+                        <img src="{% static "img/keyboard.jpg" %}" class="responsive-img">
+                      {% elif ad.pname|stringformat:"s" == 'Motherboard' %} 
+                        <img src="{% static "img/motherboard.jpg" %}" class="responsive-img">
+                      {% elif ad.pname|stringformat:"s" == 'Phone' %} 
+                        <img src="{% static "img/mobile.jpg" %}" class="responsive-img">
+                      {% elif ad.pname|stringformat:"s" == 'Newspaper' %} 
+                        <img src="{% static "img/news.jpg" %}" class="responsive-img">
+                      {% elif ad.pname|stringformat:"s" == 'Plastics' %} 
+                        <img src="{% static "img/plastic.jpg" %}" class="responsive-img">
+                      {% elif ad.pname|stringformat:"s" == 'Pendrive' %} 
+                        <img src="{% static "img/pendrive.jpg" %}" class="responsive-img">
+                      {% elif ad.pname|stringformat:"s" == 'Mouse' %} 
+                        <img src="{% static "img/mouse.jpg" %}" class="responsive-img">
+                      {% else %}
+                        <img src="{% static "img/glass.jpg" %}" class="responsive-img">
+                      {% endif %}
+                    </div>
+                    <div class="card-content center {% if var.is_new %} white {% else %} grey lighten-3 {%endif%}">
+                      <span class="card-title caps">{{ ad.pname }}</span><br>
+                      <span>ID : {{ var.id }}<br/> Quantity : {{ ad.quantity }} KG <br/> Current Bid : {{ ad.price }} <br/>Expires on : {{ad.expires.day}} - {{ad.expires.month}} - {{ad.expires.year}} </span><br>
+                      <a href = "/sellerlogin/bids/{{ad.id}}" class="btn red">Explore</a>
+                    </div>
+                </div>
+                {% endif %}
+            {% endfor %}
+           </div>
+<!--
+                <ul class="collapsible popout" data-collapsible="accordion">
+                {% for ad in ads %}
+                  <li>
+                      <div class="collapsible-header active" style="text-transform: capitalize;">{{ ad.pname }}</div>
+                      <div class="collapsible-body">
+                          <span>ID : {{ ad.id }}<br/> Quantity : {{ ad.quantity }} KG <br/> Base Price : {{ ad.price }} </span>
+                          <br>
+                          <a href="/sellerlogin/bids/{{ad.id}}" class="btn red">Explore</a><br/><br/>
+                      </div>
+                  </li>
+                {% endfor %}
+                </ul>
+-->
+       </div>
+     </div>
+</div>
+</body>
+<script>
+     //alert('{{ alert }}');
+</script>
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script type='text/javascript' src="{% static "js/init.js" %}"></script>
+    <script type='text/javascript' src="{% static "js/materialize.min.js" %}"></script>
+    <script type='text/javascript' src="{% static "js/typed.js" %}"></script>
+    <script type='text/javascript' src="{% static "js/wow.js" %}"></script>
+    <script type='text/javascript' src="{% static "js/particles.js" %}"></script>
+    <script type='text/javascript' src="{% static "js/app.js" %}"></script>
+</html> 

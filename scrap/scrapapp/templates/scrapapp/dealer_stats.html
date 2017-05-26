@@ -1,0 +1,51 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+{% for ad in ads %}
+<p id="{{ad.id}}" onclick="return stat(this)">{{ad.pname}} {{ ad.quantity }}</p>
+<div id="resultdiv_{{ad.id}}"></div>
+
+{% endfor %}
+
+</body>
+
+<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script>
+
+  function stat(id)
+  {
+    var ad = id.id;
+    console.log(" value = "+ad);
+
+
+    $.ajax({
+    url: '/stats/',
+    type : 'post',
+    dataType: 'json',
+    data: {id : ad,csrfmiddlewaretoken: '{{ csrf_token }}'},
+    success: function(data) {
+        console.log("success");
+        console.log(data);
+        var low = Number(data['low']);
+        var high = Number(data['high']);
+        var avg = (low+high)/2;
+
+        document.getElementById("resultdiv_"+ad).innerHTML ="low amount = "+low+"<br>highest amount = "+high+"<br>Average amount = "+avg;
+
+    },
+    failure: function(data) {
+        alert('Got an error dude');
+    }
+  });
+
+return false;
+}
+
+</script>
+</html>

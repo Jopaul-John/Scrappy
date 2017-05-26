@@ -1,0 +1,60 @@
+{% load staticfiles %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Ads</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Coda" rel="stylesheet">
+    <link href="{% static "css/materialize.css" %}" media="screen,projection" rel="stylesheet" type="text/css">
+    <link href="{% static "css/animate.css" %}" media="screen,projection" rel="stylesheet" type="text/css">
+    <link href="{% static "css/style.css" %}" media="screen,projection" rel="stylesheet" type="text/css">
+    <link href="{% static "css/dataurl.css" %}" media="screen,projection" rel="stylesheet" type="text/css">
+</head>
+<body style="font-family:Coda">
+<div id="particles-js"></div>
+<div class="navbar-fixed">
+    <nav class="light-blue lighten-1" role="navigation">
+        <div class="nav-wrapper container">
+            <a class="brand-logo" href="http://www.adishankara.ac.in/" target="_blank" id="logo-container"><b>Scrappy</b></a>
+            <ul class="right hide-on-med-and-down">
+               <li> <a style="text-transform:capitalize">Welcome {{user}}</a> </li>
+               <li> <a href="/sellerlogin/">Home</a> </li>
+               <li> <a href = "{{ id }}">Logout</a></li>
+            </ul>
+            <ul class="side-nav" id="nav-mobile">
+               <li> <a style="text-transform:capitalize"></li>
+               <li> <a href="/sellerlogin/">Home</a> </li>
+               <li> <a href = "{{ id }}">Logout</a></li>
+            </ul><a class="button-collapse" data-activates="nav-mobile" href="#"><i class="material-icons">menu</i></a>
+        </div>
+    </nav> 
+</div>
+<div class="container center row">
+    <h3>My Ads</h3>
+    <div class="col m8 offset-m2 black-text grey lighten-4">
+     <ul class="collapsible popout" data-collapsible="accordion">
+    {% for ad in ads %}
+      <li>
+          <div class="collapsible-header active" style="text-transform: capitalize;">{{ ad.pname }}</div>
+          <div class="collapsible-body">
+              <span>ID : {{ ad.id }}<br/> Quantity : {{ ad.quantity }} KG <br/> Base Price : {{ ad.price }} </span>
+              <br>
+              <a href="/sellerlogin/bids/{{ad.id}}" class="btn red">Explore</a><br/><br/>
+          </div>
+      </li>
+    {% endfor %}
+  </ul>
+    </div>
+</div>
+</body>
+<script>
+     //alert('{{ alert }}');
+</script>
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script type='text/javascript' src="{% static "js/init.js" %}"></script>
+    <script type='text/javascript' src="{% static "js/materialize.min.js" %}"></script>
+    <script type='text/javascript' src="{% static "js/typed.js" %}"></script>
+    <script type='text/javascript' src="{% static "js/wow.js" %}"></script>
+    <script type='text/javascript' src="{% static "js/particles.js" %}"></script>
+    <script type='text/javascript' src="{% static "js/app.js" %}"></script>
+</html> 

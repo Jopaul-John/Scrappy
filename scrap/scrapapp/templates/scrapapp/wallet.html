@@ -1,0 +1,137 @@
+{% load staticfiles %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Wallet</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Coda" rel="stylesheet">
+    <link href="{% static "css/materialize.css" %}" media="screen,projection" rel="stylesheet" type="text/css">
+    <link href="{% static "css/animate.css" %}" media="screen,projection" rel="stylesheet" type="text/css">
+    <link href="{% static "css/style.css" %}" media="screen,projection" rel="stylesheet" type="text/css">
+    <link href="{% static "css/dataurl.css" %}" media="screen,projection" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+     <script>
+    window.onload = function() {
+        $("#recent_trans").hide();
+        };
+    </script>
+</head>
+<body style="font-family:Coda">
+<div id="particles-js"></div>
+<div class="navbar-fixed">
+    <nav class="light-blue lighten-1" role="navigation">
+        <div class="nav-wrapper container">
+            <a class="brand-logo" href="/index/" target="_blank" id="logo-container"><b>Scrappy</b></a>
+            <ul class="right hide-on-med-and-down">
+               <li> <a style="text-transform:capitalize">Welcome {{user}}</a> </li>
+               <li> <a href="/dealerlogin/">Home</a> </li>
+               <li> <a href = "/logout/">Logout</a></li>
+            </ul>
+            <ul class="side-nav" id="nav-mobile">
+               <li> <a>Welcome {{user}}</a> </li>
+               <li> <a href="/dealerlogin/">Home</a> </li>
+               <li> <a href = "{{ id }}">Logout</a></li>
+            </ul><a class="button-collapse" data-activates="nav-mobile" href="#"><i class="material-icons">menu</i></a>
+        </div>
+    </nav> 
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col m12 s12 center">
+        <div id="view_recent"><a class="btn amber">View Recent Transaction</a></div>
+            <div id="recent_trans">
+                {% if transactions %}
+                <table>
+                <thead>
+                  <tr>
+                      <th>Product</th>
+                      <th>Buyer</th>
+                      <th>Date</th>
+                      <th>Base Price</th>
+                      <th>Bid Amount</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+
+                {% for trans in transactions %}
+                  <tr style="text-transform:capitalize">
+                    <td>{{trans.ad.pname}}</td>
+                    <td>{{trans.bid_detail.bidder_name}}</td>
+                    <td>{{trans.ad.date}}</td>
+                    <td>{{trans.ad.price}}</td>
+                    <td>{{trans.bid_detail.amount}}</td>
+                  </tr>
+                {% endfor %}
+                
+                </tbody>
+                </table>
+                {% else %}
+                <p>Sorry, No Transactions</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+      <div class="row">
+        <div class="col m12 s12 center">
+            <p id="refresh_amount">Balance &#8377; {% if balance %} {{balance.amount}} {% else %} 0 {% endif %} </p>
+            <form method="post" class="col m6 offset-m3">
+                {% csrf_token %}
+                <label for="cash">Add cash</label>
+                <input id="add_cash" placeholder="0" type="text" name="cash" class="validate" required>
+                <input class="btn green" type="submit" value="Add" id="add_cash_butt">
+            </form>
+            <div class="row">
+                <div class="col m12 s12 center">
+                    <div id="thisis"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div>
+    
+</div>
+    
+</body>
+
+<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script>
+    $('#view_recent').click(function (e) {
+        $("#recent_trans").fadeIn("slow");
+    });
+    $('#add_cash_butt').click(function (e) {
+        e.preventDefault();
+        console.log("Button pressed");
+        
+        var amount = $('#add_cash').val();
+        console.log(amount);
+        $.ajax({
+            url: '/wallet/'
+            , type: 'post'
+            , dataType: 'json'
+            , data: {
+                amount: amount
+                , csrfmiddlewaretoken: '{{ csrf_token }}'
+            }
+            , success: function (data) {
+                document.getElementById("thisis").innerHTML = data.message;
+                document.getElementById("refresh_amount").innerHTML = "<p>Balance &#8377; " + data.amount;
+            }
+            , failure: function (data) {
+                alert('Got an error dude');
+            }
+        });
+    });
+</script>
+<script type='text/javascript' src="{% static " js/init.js " %}"></script>
+<script type='text/javascript' src="{% static " js/materialize.min.js " %}"></script>
+<script type='text/javascript' src="{% static " js/typed.js " %}"></script>
+<script type='text/javascript' src="{% static " js/wow.js " %}"></script>
+<script type='text/javascript' src="{% static " js/particles.js " %}"></script>
+<script type='text/javascript' src="{% static " js/app.js " %}"></script>
+</html>
+

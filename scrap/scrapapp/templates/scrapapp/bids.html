@@ -1,0 +1,125 @@
+{% load staticfiles %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{user}} - {{ad.pname}}</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Coda" rel="stylesheet">
+    <link href="{% static "css/materialize.css" %}" media="screen,projection" rel="stylesheet" type="text/css">
+    <link href="{% static "css/animate.css" %}" media="screen,projection" rel="stylesheet" type="text/css">
+    <link href="{% static "css/style.css" %}" media="screen,projection" rel="stylesheet" type="text/css">
+    <link href="{% static "css/dataurl.css" %}" media="screen,projection" rel="stylesheet" type="text/css">
+</head>
+<body style="font-family:Coda">
+<div id="particles-js"></div>
+<div class="navbar-fixed">
+    <nav class="light-blue lighten-1" role="navigation">
+        <div class="nav-wrapper container">
+            <a class="brand-logo" href="http://www.adishankara.ac.in/" target="_blank" id="logo-container"><b>Scrappy</b></a>
+            <ul class="right hide-on-med-and-down">
+               <li> <a class="caps">Welcome {{user}}</a> </li>
+               <li> <a href="/sellerlogin/">Home</a> </li>
+               <li> <a href = "/logout/">Logout</a></li>
+            </ul>
+            <ul class="side-nav" id="nav-mobile">
+               <li> <a class="caps">Welcome {{user}}</a> </li>
+               <li> <a href="/sellerlogin/">Home</a> </li>
+               <li> <a href = "{{ id }}">Logout</a></li>
+            </ul><a class="button-collapse" data-activates="nav-mobile" href="#"><i class="material-icons">menu</i></a>
+        </div>
+    </nav> 
+</div>
+<div class="container center row">
+    <div class="col m8 offset-m2 black-text grey lighten-4">
+     <ul class="collapsible popout" data-collapsible="accordion">
+      <li>
+          <div class="collapsible-header active" style="text-transform: capitalize;">{{ ad.pname }}</div>
+          <div class="collapsible-body">
+              <span>ID : {{ ad.id }}<br/> Quantity : {{ ad.quantity }} KG <br/> Base Prize : {{ ad.price }} <br> Posted On : {{ad.date}} </span>
+              <br>
+<!--              <a href = "/ads/{{ var.id }}/" class="btn red">Explore</a><br/><br/>-->
+          </div>
+      </li>
+    </ul>
+    {% if mybids %}
+        <table class="black-text centered">
+        <thead>
+          <tr>
+              <th data-field="id">Amount</th>
+              <th data-field="name">Bidder</th>
+              <th data-field="name">Rating</th>
+              <th data-field="price">Time</th>
+              <th data-field="price">Confirm</th>
+          </tr>
+        </thead>
+        <tbody>
+    {% for bid in mybids %}
+    <form action="" method="post">
+    {% csrf_token %}
+      <tr>
+            <td>{{bid.bid_amount}}</td>
+            <td>{{bid.bidded_by}}</td>
+            <td>{{bid.bidded_by.ratings}}</td>
+            <td>{{bid.bid_time}}</td>
+            <td><button class="btn "type="submit" onClick="return senddata(this.id)" id="{{bid.id}}" name="biddername" value="{{bid.id}}">Submit</button></td>
+      </tr>
+    </form>
+    {% endfor %}
+    {%else %}
+     <p>Sorry No Bids Yet</p>
+    {% endif %}
+
+    </div>
+    <div class="row">
+        <div class="col m12 s12 center">
+    {% if bid_message %}
+        <p style="text-transform:capitalize"> {{bid_message}} </p>
+    {%endif%}
+        </div>
+    </div>
+</div>
+<div align="center" id="msgdiv"></div>
+</body>
+<script>
+     //alert('{{ alert }}');
+</script>
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script type='text/javascript' src="{% static "js/init.js" %}"></script>
+    <script type='text/javascript' src="{% static "js/materialize.min.js" %}"></script>
+    <script type='text/javascript' src="{% static "js/typed.js" %}"></script>
+    <script type='text/javascript' src="{% static "js/wow.js" %}"></script>
+    <script type='text/javascript' src="{% static "js/particles.js" %}"></script>
+    <script type='text/javascript' src="{% static "js/app.js" %}"></script>
+
+
+    <script>
+
+        function senddata(id)
+        {
+            var idno = Number(id);
+            console.log(id);
+
+
+         $.ajax({
+    url: '/acceptbid/',
+    type : 'post',
+    dataType: 'json',
+    data: {id: id,csrfmiddlewaretoken: '{{ csrf_token }}'},
+    success: function(data) {
+        message = data.message+"<br>Bidder Name :"+data.bidder;
+        $('#msgdiv').html(message);
+        if(data.ajaxmsg == "true")
+         {
+            $(idno).prop('value', 'BIdded');
+         }
+    },
+    failure: function(data) {
+        alert('Got an error dude');
+    }
+});
+         $(idno).prop('value', 'BIdded');
+         return false;
+        }
+
+    </script>
+</html>

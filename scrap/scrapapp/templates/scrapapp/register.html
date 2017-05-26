@@ -1,0 +1,238 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Register</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Coda" rel="stylesheet">
+    <link href="{% static "css/materialize.css" %}" media="screen,projection" rel="stylesheet" type="text/css">
+    <link href="{% static "css/animate.css" %}" media="screen,projection" rel="stylesheet" type="text/css">
+    <link href="{% static "css/style.css" %}" media="screen,projection" rel="stylesheet" type="text/css">
+    <link href="{% static "css/dataurl.css" %}" media="screen,projection" rel="stylesheet" type="text/css">
+</head>
+<body style="font-family: Coda">
+<div id="particles-js"></div>
+<div class="navbar-fixed">
+    <nav class="light-blue lighten-1 mynav" role="navigation">
+        <div class="nav-wrapper container">
+            <a class="brand-logo" href="/index/" target="_blank" id="logo-container"><b>Scrappy</b></a>
+            <ul class="right hide-on-med-and-down">
+                <li>
+                    <a href="/home/">Login</a>
+                </li>
+            </ul>
+            <ul class="side-nav" id="nav-mobile">
+                <li>
+                    <a href="/home/">Login</a>
+                </li>
+            </ul><a class="button-collapse" data-activates="nav-mobile" href="#"><i class="material-icons">menu</i></a>
+        </div>
+    </nav> 
+</div>
+<div class="container center row">
+    <h3>Register</h3>
+    <div class="col m3">
+      <img src="{% static "img/scrap.png" %}" width="230">
+    </div>
+    <div class="col m6 s12">
+    <form action="" method="post" enctype="multipart/form-data">
+    {%csrf_token%}
+        <span class="helptext">All Fields are Required.<br/></span>
+        <div class="row">
+            <div class="input-field col m6">
+                <label for="id_username">Username</label>
+                <input id="id_username" maxlength="150" name="username" type="text" required /><br />
+            </div>
+            <div class="input-field col m6">
+               <label for="id_password">Password</label>
+                <input id="id_password" name="password" type="password" required />
+            </div>
+        </div>
+        <div class="row">
+            <div class="input-field col m12">
+               <label for="id_email">Email address</label>
+                <input id="id_email" maxlength="254" name="email" type="email" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="input-field col m12">
+               <label for="id_address">Address</label>
+                <input id="id_address" maxlength="50" name="address" type="text" required />
+            </div>
+        </div>
+<!--Dealer-->
+    {% if form == 'dealer'%}
+     
+        <div class="row">
+             <div class="input-field col m6">
+               <label for="id_ph_no">Mobile</label>
+                <input id="id_ph_no" maxlength="10" name="ph_no" type="text" required />
+            </div>
+           
+            <div class="input-field col m6">
+                <label for="id_city">City</label>
+                <input id="id_city" maxlength="20" name="city" type="text" required />
+            </div>
+        </div>
+        <div class="row">
+             <div class="input-field col m6">
+               <label for="id_pincode">Pincode</label>
+                <input id="id_pincode" maxlength="6" name="pincode" type="text" required />
+            </div>
+            <div class="input-field col m6">
+               <label for="id_reg_id">Adhaar ID</label>
+               <input id="id_reg_id" maxlength="20" name="reg_id" type="text" required />
+            </div>
+        </div>
+        <div class="row">
+        <div class="input-field col m12">
+               <label for="id_reg_image center">Profile Picture</label><br>
+               <div class="file-field input-field">
+                  <div class="btn">
+                    <span>File</span>
+                    <input type="file" id="id_reg_image" name="reg_image" required>
+                  </div>
+                  <div class="file-path-wrapper">
+                    <input class="file-path validate" type="text">
+                  </div>
+               </div>
+            </div>
+        </div>
+    <!--Seller-->
+    {%else %}
+         <div class="row">
+             <div class="input-field col m6">
+                 <label for="id_city">City:</label>
+                 <input id="id_city" maxlength="20" name="city" type="text" required />
+            </div>
+            <div class="input-field col m6">
+                <label for="id_landmark">Landmark:</label>
+                <input id="id_landmark" maxlength="30" name="landmark" type="text" required />
+            </div>
+        </div>
+        <div class="row">
+             <div class="input-field col m6">
+                 <label for="id_ph_no">Mobile</label>
+                 <input id="id_ph_no" maxlength="10" name="ph_no" type="text" required />
+            </div>
+            <div class="input-field col m6">
+                <label for="id_pincode">Pincode</label>
+                <input id="id_pincode" maxlength="6" name="pincode" type="text" required />
+            </div>
+        </div>
+  {%endif %}
+
+   <!-- {{user.as_p}}
+    {{form.as_p}}
+    {% if form.errors %}
+        {{ form.errors }}
+    {% endif %}
+
+    {% if user.errors %}
+        {{ user.errors }}
+    {% endif %}
+   -->
+    <input class="btn green" type="submit" id="submitbutton" value="ok"></input>
+    {{ status }}
+
+
+</form>
+    </div>
+    <div class="col m3">
+      <img src="{% static "img/scrapp.png" %}" width="195">
+    </div>
+{% if error %}
+{{ error }}
+{% endif %}
+<br/>
+</body>
+<script>
+     //alert('{{ alert }}');
+</script>
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script type='text/javascript' src="{% static "js/init.js" %}"></script>
+    <script type='text/javascript' src="{% static "js/materialize.min.js" %}"></script>
+    <script type='text/javascript' src="{% static "js/typed.js" %}"></script>
+    <script type='text/javascript' src="{% static "js/wow.js" %}"></script>
+    <script type='text/javascript' src="{% static "js/particles.js" %}"></script>
+    <script type='text/javascript' src="{% static "js/app.js" %}"></script>
+
+<script>
+            $("#id_username").change(function () {
+      var username = $(this).val();
+      console.log(username);
+      $.ajax({
+        url: '/validateuser/',
+        data: {
+          'username': username
+        },
+        dataType: 'json',
+        success: function (data) {
+          if (data.is_taken) {
+            alert("A user with this username already exists.");
+          }
+        }
+      });
+
+    });
+/*
+  $('#submitbutton').click(function (e) {
+  e.preventDefault();
+
+    var name = $('#id_username').val();
+    var password = $('#id_password').val();
+    var email = $('#id_email').val();
+    var address = $('#id_address').val();
+    var adhar;
+    var land;
+    console.log(name+password+email+address);
+    if('{{form}}'!="dealer")
+     {
+       var phone=$('#id_ph_no').val();
+       var city=$('#id_city').val();
+       var pin=$('#id_pincode').val();
+       var adhar=$('#id_reg_id').val();
+      $.ajax({
+        url: '/test/',
+        type : 'post',
+        dataType: 'json',
+        data: {name: name, password: password,address:address,email:email,phone:phone,city:city,pin:pin,adhar:adhar,dealer:"dealer",csrfmiddlewaretoken: '{{ csrf_token }}'},
+        success: function(data) {
+        console.log("success");
+                 },
+        failure: function(data) {
+        alert('Got an error dude');
+        }
+        });//ajax close
+
+      }//if
+    else
+    {
+        var phone=$('#id_ph_no').val();
+        var city=$('#id_city').val();
+        var pin=$('#id_pincode').val();
+        var land=$('#id_landmark').val();
+        $.ajax({
+        url: '/test/',
+        type : 'post',
+        dataType: 'json',
+        data: {name: name, password: password,address:address,email:email,phone:phone,city:city,pin:pin,adhar:adhar,land:land,csrfmiddlewaretoken: '{{ csrf_token }}'},
+        success: function(data) {
+        console.log("success");
+                 },
+        failure: function(data) {
+        alert('Got an error dude');
+        }
+        });//ajax close
+      }
+
+       window.location.replace('/codeverify/');
+
+    });
+*/
+    </script>
+
+
+</html>
+   
